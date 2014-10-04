@@ -1,0 +1,30 @@
+Ext.define('Roadside.model.UserProfile',
+{
+	extend: 'Ext.data.Model',
+	alias: 'model.UserProfile',
+	config: {
+		identifier: {
+		  type: 'uuid',
+		  isUnique: true
+		},
+		
+		fields: [
+		{
+			name: 'fname'
+		},
+		{
+			name: 'lname'
+		},
+		{
+			name: 'email'
+		},
+		{
+			name: 'phone'
+		}
+		]
+	   }
+
+
+});
+
+

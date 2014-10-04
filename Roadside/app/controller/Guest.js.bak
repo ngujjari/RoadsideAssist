@@ -1,0 +1,155 @@
+Ext.define('Roadside.controller.Guest', {
+	extend: 'Ext.app.Controller',
+	
+	config: {
+		refs: {			
+			loginView: 'loginview',			
+			guestView: 'guestView',
+			maintabpanel: 'maintabpanel',
+			guestForm: 'guestView #guestForm',
+			shareButton: '#shareButton1',		
+		},
+		control: {			
+			loginView: {				
+				guestClickCommand: 'guestClickCommand',				
+			},
+			guestView: {
+				guestSubmitCommand: 'guestSubmitCommand',				
+			}
+		}
+	},
+
+	// Session token
+
+	sessionToken: null,
+	
+	// Transitions
+	getSlideLeftTransition: function () {
+		return { type: 'slide', direction: 'left' };
+	},
+
+	getSlideRightTransition: function () {
+		return { type: 'slide', direction: 'right' };
+	},
+
+	guestClickCommand: function (view) {
+
+		console.log('guestClickCommand begin');
+
+		var me = this,
+		// maintabpanel = me.getMaintabpanel();
+		loginView = me.getLoginView();
+		guestView = me.getGuestView();
+		var form = this.getGuestForm();
+		
+		if(!guestView)
+		{
+			guestView = Ext.create('Roadside.view.Guest');	
+		}
+		
+		
+		guestView.updateRecord();
+		loginView.push(guestView);
+	},
+
+	showShareButton: function() {
+		var shareButton = this.getShareButton();
+	
+		if (!shareButton.isHidden()) {
+			return;
+		}
+	
+		//this.hideSaveButton();
+
+		shareButton.show();
+	},
+	
+	guestSubmitCommand:function (view) {
+
+		var form = this.getGuestForm();
+		var values = form.getValues();
+		console.log('guestSubmitCommand Username: ' + values + '\n' + 'NAME: ' + values.fname);
+		var usr = Ext.create('Roadside.model.Guest',{
+			fname: values.fname,
+			lname: values.lname,
+			email:values.email,
+			phone: values.phone,
+			agentfname: values.agentfname,
+			agentlname: values.agentlname,
+			agentphone: values.agentphone
+		});
+		
+		var errs = usr.validate(); 
+		var msg = '';
+		var errFields = [];   
+		if (!errs.isValid()) {      
+			errs.each(function (err) 
+			{    
+				//err.getField()
+				var present = false;
+				for(var fldIdx = 0; fldIdx < errFields.length; fldIdx++)
+				{
+					if(errFields[fldIdx] == err.getField())
+					{
+						present = true;
+					}
+				}
+				if(!present){
+					errFields.push(err.getField());
+					msg += err.getMessage() + '<br>';
+				}    
+			});      
+			errFields = null;
+			errFields = [];
+			Ext.Msg.alert('ERROR', msg);   
+		} 
+		else {     
+			//Ext.Msg.alert('SUCCESS', 'Looks like the model is valid'); 
+		}
+		
+		if(!msg.length > 0)
+		{
+		var gueststore = Ext.getStore('gueststore');
+		gueststore.removeAll();
+		gueststore.add(usr);
+		gueststore.sync();
+		console.log('profileSubmitCommand getCount: ' +gueststore.getCount());
+		
+
+
+		form.setRecord(usr);
+		  // Mask the form
+                            form.setMasked({
+                                xtype: 'loadmask',
+                                message: 'Saving...'
+                            });
+
+                            // Put it inside a timeout so it feels like it is going to a server.
+                            setTimeout(function() {
+                                if (form.user) {
+                                    // Call the updateRecord method of formpanel with the user record instance. This will update the user record
+                                    // with the latest values.
+                                    form.updateRecord(usr, true);
+                                }
+
+                                // Unmask the formpanel
+                                form.setMasked(false);
+                            }, 1000);
+                                
+		}// No Validation errors
+
+	},
+
+	
+// Base Class functions.
+launch: function () {
+	this.callParent(arguments);
+	console.log("launch");
+},
+init: function () {
+	this.callParent(arguments);
+	console.log("init");
+	//this.onOverCommand();
+}
+
+});

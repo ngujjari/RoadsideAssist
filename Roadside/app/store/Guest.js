@@ -1,0 +1,20 @@
+Ext.define('Roadside.store.Guest', {
+    extend: 'Ext.data.Store',
+
+     alias: 'store.Guest',
+     requires: [
+     		'Roadside.model.Guest'
+     		],
+
+     config: {
+		 model: 'Roadside.model.Guest',
+		 storeId: 'gueststore',
+		// identifier:'uuid', // needed to avoid console warnings!
+
+		 proxy: {
+			 type: 'localstorage',
+			 id: 'userstoreproxy'
+			 }
+
+		}
+});

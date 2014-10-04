@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html manifest="" lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Roadside</title>
+    <style type="text/css">
+         /**
+         * Example of an initial loading indicator.
+         * It is recommended to keep this as minimal as possible to provide instant feedback
+         * while other resources are still being loaded for the first time
+         */
+        html, body {
+            height: 100%;
+            background-color: #1985D0
+        }
+
+        #appLoadingIndicator {
+            position: absolute;
+            top: 50%;
+            margin-top: -15px;
+            text-align: center;
+            width: 100%;
+            height: 30px;
+            -webkit-animation-name: appLoadingIndicator;
+            -webkit-animation-duration: 0.5s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-direction: linear;
+        }
+
+        #appLoadingIndicator > * {
+            background-color: #FFFFFF;
+            display: inline-block;
+            height: 30px;
+            -webkit-border-radius: 15px;
+            margin: 0 5px;
+            width: 30px;
+            opacity: 0.8;
+        }
+
+        @-webkit-keyframes appLoadingIndicator{
+            0% {
+                opacity: 0.8
+            }
+            50% {
+                opacity: 0
+            }
+            100% {
+                opacity: 0.8
+            }
+        }
+    </style>
+<!--
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    -->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+  <!--  <script type="text/javascript" charset="utf-8" src="cordova.js"></script> -->
+    <!-- The line below must be kept intact for Sencha Command to build your application -->
+    <script id="microloader" type="text/javascript" src="touch/microloader/development.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+	console.log('Before Devise ready call .......' );
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+
+
+  // device APIs are available
+    //
+    function onDeviceReady() {
+
+
+     Ext.Msg.alert('in onDeviceReady method.................android = '+Ext.is.Android +'   IOS== '+Ext.is.iOS);
+/*     navigator.openDatabase = window.openDatabase ;
+       // var db = window.openDatabase("TestDatabase", "1.0", "Cordova Demo", 1024);
+       var db;
+        try{
+		            if (!window.openDatabase) {
+		                 console.log('Database not supported');
+		            } else {
+		                 db = openDatabase("TestDatabase", "1.0", "Cordova Demo", 1024);
+		                 console.log('database tx call.................');
+		                 db.transaction(populateDB, errorCB, successCB);
+		            }
+		        } catch (e){
+		            if(e==2){
+		                console.log("Invalid database version.");
+		            } else {
+		                 console.log("Unknown error "+e+".");
+		            }
+
+        }
+
+       // var dbquery = openDatabase("TestDatabase", "1.0", "Cordova Demo", 1024);
+		db.transaction(queryDB, errorCB);
+*/
+
+console.log('Device Model: '    + device.model    + '<br />' +
+                            'Device Cordova: '  + device.cordova  + '<br />' +
+                            'Device Platform: ' + device.platform + '<br />' +
+                            'Device UUID: '     + device.uuid     + '<br />' +
+                            'Device Version: '  + device.version  + '<br />');
+                             navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        console.log('after open database call.................');
+
+    }
+
+    // Populate the database
+    //
+    function populateDB(tx) {
+     console.log('populateDB begin');
+        tx.executeSql('DROP TABLE IF EXISTS DEMO');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+
+
+        console.log('populateDB end');
+    }
+
+    // Transaction error callback
+    //
+    function errorCB(tx, err) {
+        console.log("Error processing SQL: "+err);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        console.log("success!");
+    }
+
+    function queryDB(tx) {
+     console.log('queryDB begin');
+	    tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+	}
+
+	function querySuccess(tx, results) {
+	 console.log('querySuccess begin');
+	    var len = results.rows.length;
+	 	console.log("DEMO table: " + len + " rows found.");
+		for (var i=0; i<len; i++){
+           console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+	    }
+	}
+	
+	// onSuccess Callback
+// This method accepts a Position object, which contains the
+// current GPS coordinates
+//
+var onSuccess = function(position) {
+    console.log('Latitude: '          + position.coords.latitude          + '\n' +
+          'Longitude: '         + position.coords.longitude         + '\n' +
+          'Altitude: '          + position.coords.altitude          + '\n' +
+          'Accuracy: '          + position.coords.accuracy          + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+          'Heading: '           + position.coords.heading           + '\n' +
+          'Speed: '             + position.coords.speed             + '\n' +
+          'Timestamp: '         + position.timestamp                + '\n');
+};
+
+// onError Callback receives a PositionError object
+//
+function onError(error) {
+    console.log('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
+
+
+
+
+
+
+
+    </script>
+
+
+</head>
+<body>
+    <div id="appLoadingIndicator">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
+</html>

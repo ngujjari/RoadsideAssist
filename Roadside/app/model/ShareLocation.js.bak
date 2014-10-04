@@ -1,0 +1,34 @@
+Ext.define('Roadside.model.ShareLocation',
+{
+	extend: 'Ext.data.Model',
+	alias: 'model.ShareLocation',
+	config: {
+		identifier: {
+		  type: 'uuid',
+		  isUnique: true
+		},
+		
+		fields: [
+		{
+			name: 'fname'
+		},
+		{
+			name: 'lname'
+		},		
+		{
+			name: 'phone'
+		},
+		{
+			name: 'lat'
+		},
+		{
+			name: 'lng'
+		}
+		
+		]
+	   }
+
+
+});
+
+

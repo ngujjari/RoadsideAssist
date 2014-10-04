@@ -1,0 +1,159 @@
+Ext.define('Roadside.view.Register', {
+	extend : 'Ext.navigation.View',
+	requires : ['Ext.TitleBar', 'Roadside.view.Login'],
+	xtype : 'registerView',
+	id : 'registerView',
+	config : {
+		title : 'Registration Form',
+		navigationBar : false,
+
+		/*
+		 navigationBar: {
+		 docked : 'top',
+		 ui: 'sencha',
+		 items: [
+		 {
+		 xtype: 'button',
+		 id: 'guestSubmitButton',
+		 text: 'Save',
+		 ui: 'sencha',
+		 align: 'right',
+		 hidden: false,
+		 hideAnimation: Ext.os.is.Android ? false : {
+		 type: 'fadeOut',
+		 duration: 200
+		 },
+		 showAnimation: Ext.os.is.Android ? false : {
+		 type: 'fadeIn',
+		 duration: 200
+		 }
+
+		 }
+
+		 ]
+		 },
+		 */
+
+		items : [{
+			xtype : 'formpanel',
+			itemId : 'registerForm',
+			scrollable : false,
+			flex : 1,
+			fieldDefaults : {
+				labelAlign : 'left',
+				labelWidth : '100%',
+			},
+			items : [{
+				xtype : 'fieldset',
+				fullscreen : false,
+				items : [{
+					xtype : 'hiddenfield',
+					name : 'id'
+				}, {
+					xtype : 'textfield',
+					name : 'fname',
+					labelWidth : 120,
+					disabled : false,
+					disclosure : false,
+					label : 'First Name'
+				}, {
+					xtype : 'textfield',
+					name : 'lname',
+					labelWidth : 120,
+					disabled : false,
+					disclosure : false,
+					label : 'Last Name'
+				}, {
+					xtype : 'textfield',
+					name : 'email',
+					labelWidth : 120,
+					disabled : false,
+					label : 'Email'
+				}, {
+					xtype : 'textfield',
+					component : {
+						type : 'tel'
+					},
+					name : 'phone',
+					labelWidth : 120,
+					disabled : false,
+					label : 'Phone'
+				}, {
+					xtype : 'textfield',
+					name : 'agentfname',
+					disabled : false,
+					labelWidth : 120,
+					label : 'Agent Name'
+				}/*,
+				 {
+				 xtype: 'textfield',
+				 name : 'agentlname',
+				 disabled:false,
+				 label: 'Agent Last Name'
+				 }*/,
+				{
+					xtype : 'textfield',
+					component : {
+						type : 'tel'
+					},
+					name : 'agentphone',
+					labelWidth : 120,
+					disabled : false,
+					label : 'Agent Phone'
+				}, {
+					xtype : 'spacer',
+					height : 20
+				}, {
+					xtype : 'button',
+					itemId : 'registerSubmitButton',
+					width : 100,
+					text : 'Save',
+					margin : '15px auto',
+					ui : 'blue'
+				}]
+			}]
+
+		}],
+		listeners : [{
+			delegate : '#logOffButton',
+			event : 'tap',
+			fn : 'onLogOffButtonTap'
+		}, {
+			delegate : '#registerSubmitButton',
+			event : 'tap',
+			fn : 'registerSubmitButton'
+		}],
+
+		record : null
+	},
+	onLogOffButtonTap : function() {
+		console.log('onSignOffCommand event fired !!');
+		this.fireEvent('onSignOffCommand');
+	},
+	guestSubmitButton : function() {
+		console.log('guestSubmitButton event fired !!');
+		this.fireEvent('registerSubmitCommand');
+	},
+	updateRecord : function(newRecord) {
+		console.log('registerview update record ');
+		var registerstore = Ext.getStore('registerstore');
+
+		registerstore.load(function(records, operation, success) {
+			if (success) {
+				var record1 = registerstore.first();
+				if (record1 != null) {
+					console.log('localstorage record ==== ' + record1.getData().fname);
+					var registerForm = Ext.ComponentQuery.query('#registerForm')[0];
+					console.log('guestForm ==== ' + registerForm);
+
+					registerForm.setRecord(record1);
+				}
+			}
+
+		});
+
+	},
+	initComponent : function() {
+		console.log('registerview  initComponent ... ');
+	}
+});

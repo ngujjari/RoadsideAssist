@@ -1,0 +1,108 @@
+Ext.define('Roadside.view.Services', {
+    extend: 'Ext.Container',
+    xtype: 'services-view',
+    config: {
+		iconCls: 'settings',
+		title: 'Services',
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                title: 'RSA Services'
+            },
+            {
+		xtype: 'spacer',
+		height: 20
+            },
+        
+           {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Battery',
+                handler : function() {		                          
+                     window.location.href = 'tel:+1-774-641-7519';
+                   }
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            },
+            {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Out of Fuel'
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            },
+            {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Flat Tire'
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            },
+            {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Lock Out'
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            },
+            {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Accident'
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            },
+            {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Towing'
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            },
+            {               
+               xtype: 'button',    
+               ui: 'orange-round',           
+                width: '40%',
+                margin: '3px auto',
+               // ui: 'confirm',		                
+                text: 'Other ?'
+            },
+            {
+                xtype: 'spacer',
+                height: 2
+            }
+        ]
+    }
+
+});
